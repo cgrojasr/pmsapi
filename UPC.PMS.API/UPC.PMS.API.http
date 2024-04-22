@@ -1,0 +1,6 @@
+@UPC.PMS.API_HostAddress = http://localhost:5239
+
+GET {{UPC.PMS.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
