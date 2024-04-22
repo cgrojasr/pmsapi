@@ -1,0 +1,369 @@
+USE [dbProjectEfficiency]
+GO
+/****** Object:  Table [dbo].[colaborador]    Script Date: 21/04/2024 20:06:50 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[colaborador](
+	[id_colaborador] [int] IDENTITY(1,1) NOT NULL,
+	[nombre] [varchar](100) NOT NULL,
+	[apellidos] [varchar](100) NOT NULL,
+	[id_rol] [int] NOT NULL,
+	[usuario] [varchar](200) NOT NULL,
+	[correo] [varchar](200) NOT NULL,
+ CONSTRAINT [PK_colaborador] PRIMARY KEY CLUSTERED 
+(
+	[id_colaborador] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[entrega]    Script Date: 21/04/2024 20:06:50 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[entrega](
+	[id_entrega] [int] IDENTITY(1,1) NOT NULL,
+	[nombre] [varchar](200) NOT NULL,
+	[descripcion] [varchar](400) NOT NULL,
+	[id_tipo_entrega] [int] NOT NULL,
+	[id_proyecto] [int] NOT NULL,
+ CONSTRAINT [PK_entrega] PRIMARY KEY CLUSTERED 
+(
+	[id_entrega] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[etapa]    Script Date: 21/04/2024 20:06:50 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[etapa](
+	[id_etapa] [int] IDENTITY(1,1) NOT NULL,
+	[nombre] [varchar](100) NOT NULL,
+ CONSTRAINT [PK_etapa] PRIMARY KEY CLUSTERED 
+(
+	[id_etapa] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[proyecto]    Script Date: 21/04/2024 20:06:50 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[proyecto](
+	[id_proyecto] [int] IDENTITY(1,1) NOT NULL,
+	[nombre] [varchar](200) NOT NULL,
+	[id_pm_asignado] [int] NULL,
+	[id_po_asignado] [int] NULL,
+	[presupuesto_inicial] [decimal](10, 2) NULL,
+ CONSTRAINT [PK_proyecto] PRIMARY KEY CLUSTERED 
+(
+	[id_proyecto] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[proyecto_etapa]    Script Date: 21/04/2024 20:06:50 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[proyecto_etapa](
+	[id_proyecto] [int] NOT NULL,
+	[id_etapa] [int] NOT NULL,
+	[fecha_inicio] [date] NULL,
+	[fecha_final] [date] NULL,
+ CONSTRAINT [PK_proyecto_etapa] PRIMARY KEY CLUSTERED 
+(
+	[id_proyecto] ASC,
+	[id_etapa] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[release]    Script Date: 21/04/2024 20:06:50 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[release](
+	[id_delivery] [int] IDENTITY(1,1) NOT NULL,
+	[nombre] [varchar](100) NOT NULL,
+	[descripcion] [varchar](400) NOT NULL,
+	[fecha_inicio] [date] NOT NULL,
+	[fecha_final] [date] NOT NULL,
+	[id_estado] [int] NOT NULL,
+	[id_entrega] [int] NOT NULL,
+ CONSTRAINT [PK_release] PRIMARY KEY CLUSTERED 
+(
+	[id_delivery] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[rol]    Script Date: 21/04/2024 20:06:50 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[rol](
+	[id_rol] [int] IDENTITY(1,1) NOT NULL,
+	[nombre] [varchar](100) NOT NULL,
+ CONSTRAINT [PK_rol] PRIMARY KEY CLUSTERED 
+(
+	[id_rol] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[etapa] ON 
+GO
+INSERT [dbo].[etapa] ([id_etapa], [nombre]) VALUES (1, N'Maduración')
+GO
+INSERT [dbo].[etapa] ([id_etapa], [nombre]) VALUES (2, N'Pre-Setting')
+GO
+INSERT [dbo].[etapa] ([id_etapa], [nombre]) VALUES (3, N'Setting')
+GO
+INSERT [dbo].[etapa] ([id_etapa], [nombre]) VALUES (4, N'Planificación')
+GO
+INSERT [dbo].[etapa] ([id_etapa], [nombre]) VALUES (5, N'Ejecución')
+GO
+INSERT [dbo].[etapa] ([id_etapa], [nombre]) VALUES (6, N'Cierre')
+GO
+INSERT [dbo].[etapa] ([id_etapa], [nombre]) VALUES (7, N'Finalizado')
+GO
+SET IDENTITY_INSERT [dbo].[etapa] OFF
+GO
+SET IDENTITY_INSERT [dbo].[proyecto] ON 
+GO
+INSERT [dbo].[proyecto] ([id_proyecto], [nombre], [id_pm_asignado], [id_po_asignado], [presupuesto_inicial]) VALUES (1, N'Banca Mobile', NULL, NULL, NULL)
+GO
+INSERT [dbo].[proyecto] ([id_proyecto], [nombre], [id_pm_asignado], [id_po_asignado], [presupuesto_inicial]) VALUES (4, N'Banca ahorro mayorista', NULL, NULL, CAST(3000.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[proyecto] ([id_proyecto], [nombre], [id_pm_asignado], [id_po_asignado], [presupuesto_inicial]) VALUES (7, N'prueba 1', NULL, NULL, NULL)
+GO
+INSERT [dbo].[proyecto] ([id_proyecto], [nombre], [id_pm_asignado], [id_po_asignado], [presupuesto_inicial]) VALUES (8, N'prueba 2', NULL, NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[proyecto] OFF
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (4, 1, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (4, 2, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (4, 3, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (4, 4, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (4, 5, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (4, 6, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (4, 7, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (7, 1, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (7, 2, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (7, 3, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (7, 4, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (7, 5, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (7, 6, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (7, 7, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (8, 1, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (8, 2, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (8, 3, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (8, 4, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (8, 5, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (8, 6, NULL, NULL)
+GO
+INSERT [dbo].[proyecto_etapa] ([id_proyecto], [id_etapa], [fecha_inicio], [fecha_final]) VALUES (8, 7, NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[rol] ON 
+GO
+INSERT [dbo].[rol] ([id_rol], [nombre]) VALUES (1, N'Project Manager')
+GO
+INSERT [dbo].[rol] ([id_rol], [nombre]) VALUES (2, N'Product Owner')
+GO
+SET IDENTITY_INSERT [dbo].[rol] OFF
+GO
+ALTER TABLE [dbo].[colaborador]  WITH CHECK ADD  CONSTRAINT [FK_colaborador_rol] FOREIGN KEY([id_rol])
+REFERENCES [dbo].[rol] ([id_rol])
+GO
+ALTER TABLE [dbo].[colaborador] CHECK CONSTRAINT [FK_colaborador_rol]
+GO
+ALTER TABLE [dbo].[entrega]  WITH CHECK ADD  CONSTRAINT [FK_entrega_proyecto] FOREIGN KEY([id_proyecto])
+REFERENCES [dbo].[proyecto] ([id_proyecto])
+GO
+ALTER TABLE [dbo].[entrega] CHECK CONSTRAINT [FK_entrega_proyecto]
+GO
+ALTER TABLE [dbo].[proyecto]  WITH CHECK ADD  CONSTRAINT [FK_proyecto_pm] FOREIGN KEY([id_pm_asignado])
+REFERENCES [dbo].[colaborador] ([id_colaborador])
+GO
+ALTER TABLE [dbo].[proyecto] CHECK CONSTRAINT [FK_proyecto_pm]
+GO
+ALTER TABLE [dbo].[proyecto]  WITH CHECK ADD  CONSTRAINT [FK_proyecto_po] FOREIGN KEY([id_po_asignado])
+REFERENCES [dbo].[colaborador] ([id_colaborador])
+GO
+ALTER TABLE [dbo].[proyecto] CHECK CONSTRAINT [FK_proyecto_po]
+GO
+ALTER TABLE [dbo].[proyecto_etapa]  WITH CHECK ADD  CONSTRAINT [FK_proyecto_etapa_etapa] FOREIGN KEY([id_etapa])
+REFERENCES [dbo].[etapa] ([id_etapa])
+GO
+ALTER TABLE [dbo].[proyecto_etapa] CHECK CONSTRAINT [FK_proyecto_etapa_etapa]
+GO
+ALTER TABLE [dbo].[proyecto_etapa]  WITH CHECK ADD  CONSTRAINT [FK_proyecto_etapa_proyecto] FOREIGN KEY([id_proyecto])
+REFERENCES [dbo].[proyecto] ([id_proyecto])
+GO
+ALTER TABLE [dbo].[proyecto_etapa] CHECK CONSTRAINT [FK_proyecto_etapa_proyecto]
+GO
+ALTER TABLE [dbo].[release]  WITH CHECK ADD  CONSTRAINT [FK_release_entrega] FOREIGN KEY([id_entrega])
+REFERENCES [dbo].[entrega] ([id_entrega])
+GO
+ALTER TABLE [dbo].[release] CHECK CONSTRAINT [FK_release_entrega]
+GO
+/****** Object:  StoredProcedure [dbo].[Proyecto_ModificarPrespuesto]    Script Date: 21/04/2024 20:06:50 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[Proyecto_ModificarPrespuesto]
+	@id_proyecto INT,
+	@presupuesto_inicial DECIMAL(18,2)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+    UPDATE proyecto SET
+		presupuesto_inicial = @presupuesto_inicial
+	WHERE id_proyecto = @id_proyecto
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Proyecto_Registrar]    Script Date: 21/04/2024 20:06:50 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Christian Rojas
+-- Create date: 2024-04-14
+-- Description:	Registrar un proyecto y las etapas del mismo
+-- =============================================
+CREATE PROCEDURE [dbo].[Proyecto_Registrar]
+	@nombre VARCHAR(200),
+	@id_pm_asignado INT,
+	@id_po_asignado INT,
+	@presupuesto_inicial DECIMAL(18,2)
+AS
+BEGIN
+	
+	SET NOCOUNT ON;
+
+    INSERT proyecto VALUES (
+		@nombre,
+		@id_pm_asignado,
+		@id_po_asignado,
+		@presupuesto_inicial
+	)
+END
+GO
+/****** Object:  Trigger [dbo].[Proyecto_EnviarMensajePresupuesto]    Script Date: 21/04/2024 20:06:50 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE TRIGGER [dbo].[Proyecto_EnviarMensajePresupuesto] 
+   ON  [dbo].[proyecto]
+   FOR UPDATE
+AS 
+BEGIN
+	
+	SET NOCOUNT ON;
+
+	DECLARE @id_proyecto INT
+	DECLARE @nombre VARCHAR(200)
+	DECLARE @presupuesto_inicial DECIMAL(18,2)
+
+	DECLARE @prespuesto_anterior DECIMAL(18,2)
+
+    SELECT 
+		@id_proyecto = id_proyecto,
+		@nombre = nombre,
+		@presupuesto_inicial = presupuesto_inicial
+	FROM inserted
+
+	SELECT @prespuesto_anterior = presupuesto_inicial
+	FROM deleted
+
+	PRINT CONCAT('Antes de la validación', @prespuesto_anterior,'/', @presupuesto_inicial)
+
+	IF(@prespuesto_anterior <> @presupuesto_inicial)
+	BEGIN
+		PRINT CONCAT('El proyecto ',@nombre,' ha sido asignado con un prepsuesto inicial de ',@presupuesto_inicial)
+	END	
+END
+GO
+ALTER TABLE [dbo].[proyecto] ENABLE TRIGGER [Proyecto_EnviarMensajePresupuesto]
+GO
+/****** Object:  Trigger [dbo].[Proyecto_RegistrarEtapas]    Script Date: 21/04/2024 20:06:50 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Christian Rojas
+-- Create date: 2024-04-14
+-- Description:	Registro de cada una de las etapas de un proyecto
+-- =============================================
+CREATE TRIGGER [dbo].[Proyecto_RegistrarEtapas]
+   ON  [dbo].[proyecto]
+   AFTER INSERT
+AS 
+BEGIN
+	SET NOCOUNT ON;
+
+    DECLARE @id_proyecto INT
+	DECLARE @id_etapa INT
+
+	SET @id_proyecto = (SELECT id_proyecto FROM inserted)
+
+	DECLARE etapa_cursor CURSOR FOR
+	SELECT id_etapa
+	FROM etapa
+	OPEN etapa_cursor
+	FETCH NEXT FROM etapa_cursor INTO @id_etapa
+	WHILE @@FETCH_STATUS = 0
+		BEGIN
+			INSERT proyecto_etapa VALUES (
+				@id_proyecto,
+				@id_etapa,
+				null,
+				null
+			)
+			FETCH NEXT FROM etapa_cursor INTO @id_etapa
+		END
+	CLOSE etapa_cursor
+	DEALLOCATE etapa_cursor
+END
+GO
+ALTER TABLE [dbo].[proyecto] ENABLE TRIGGER [Proyecto_RegistrarEtapas]
+GO
