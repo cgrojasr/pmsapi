@@ -9,6 +9,13 @@ namespace UPC.PMS.API.Controllers
     [ApiController]
     public class ProyectoController : ControllerBase
     {
+        private readonly ProyectoBL proyectoBL;
+
+        public ProyectoController()
+        {
+            proyectoBL = new ProyectoBL();
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -17,7 +24,6 @@ namespace UPC.PMS.API.Controllers
         public ActionResult<List<ProyectoEntity>> ListarTodo() {
             try
             {
-                var proyectoBL = new ProyectoBL();
                 return Ok(proyectoBL.ListarTodo());
             }
             catch (Exception)
@@ -31,7 +37,6 @@ namespace UPC.PMS.API.Controllers
         {
             try
             {
-                var proyectoBL = new ProyectoBL();
                 return Ok(proyectoBL.BuscarPorId(id_proyecto));
             }
             catch (Exception)
@@ -45,7 +50,6 @@ namespace UPC.PMS.API.Controllers
         {
             try
             {
-                var proyectoBL = new ProyectoBL();
                 return Ok(proyectoBL.BuscarPorId(id_proyecto));
             }
             catch (Exception)
@@ -57,8 +61,17 @@ namespace UPC.PMS.API.Controllers
         [HttpPost]
         public ActionResult<ProyectoEntity> Registrar([FromBody]ProyectoEntity proyecto)
         {
-            var proyectoBL = new ProyectoBL();
             return Ok(proyectoBL.Registrar(proyecto));
+        }
+
+        [HttpPut]
+        public ActionResult<ProyectoEntity> Modificar([FromBody]ProyectoEntity proyecto){
+            return Ok(proyectoBL.Modificar(proyecto));
+        }
+
+        [HttpDelete("{id_proyecto}")]
+        public ActionResult<bool> Eliminar(int id_proyecto){
+            return Ok(proyectoBL.Eliminar(id_proyecto));
         }
     }
 }

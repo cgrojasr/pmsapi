@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,8 @@ namespace UPC.PMS.DA
         private readonly SqlConnection conn;
         public ProyectoDA()
         {
-            conn = new SqlConnection("Server=localhost; Database=dbProjectEfficiency; User Id=sa; Password=password; TrustServerCertificate=true");
+            //conn = new SqlConnection("Server=localhost; Database=dbProjectEfficiency; User Id=sa; Password=password; TrustServerCertificate=true");
+            conn = new SqlConnection("Server=localhost; Database=dbProjectEfficiency; User Id=sa; Password=Password@123; TrustServerCertificate=true");
         }
 
         public List<ProyectoEntity> ListarTodo() {
@@ -43,6 +45,35 @@ namespace UPC.PMS.DA
             {
                 proyecto.id_proyecto = conn.Query<int>(query).Single();
                 return proyecto;
+            }
+        }
+
+        public ProyectoEntity Modificar(ProyectoEntity proyecto){
+            var query = $"UPDATE proyecto SET "+
+                $"nombre = '{proyecto.nombre}' "+
+                $"id_pm_asignado = {proyecto.id_pm_asignado} "+
+                $"id_po_asignado = {proyecto.id_po_asignado} "+
+                $"presupuesto = {proyecto.presupuesto} "+
+                $"WHERE id_proyecto = {proyecto.id_proyecto}";
+            
+            using(conn){
+                conn.Execute(query);
+                return proyecto;
+            }
+        }
+
+        public bool Eliminar(int id_proyecto){
+            try
+            {
+                var query = $"DELETE FROM proyecto WHERE id_proyecto = {id_proyecto}";
+                using(conn){
+                    conn.Execute(query);
+                }   
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }

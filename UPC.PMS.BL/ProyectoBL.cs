@@ -40,7 +40,36 @@ namespace UPC.PMS.BL
 
         public ProyectoEntity Registrar(ProyectoEntity proyecto)
         {
-            return proyectoDA.Registrar(proyecto);
+            try
+            {
+                return proyectoDA.Registrar(proyecto);   
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool Eliminar(int id_proyecto){
+            try
+            {
+                return proyectoDA.Eliminar(id_proyecto);
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        public ProyectoEntity Modificar(ProyectoEntity proyecto){
+            try
+            {
+                return proyectoDA.Modificar(proyecto);
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
         }
     }
 }
