@@ -16,7 +16,7 @@ namespace UPC.PMS.BL
             colaboradorDA = new ColaboradorDA();
         }
 
-        public List<ColaboradorModel.ProductOwnerActivo> ListarProductOwnersActivos(){
+        public List<ColaboradorModel.DropDownList> ListarProductOwnersActivos(){
             try
             {
                 var colaboradores = colaboradorDA.ListarProductOwnersActivos();   
@@ -31,7 +31,7 @@ namespace UPC.PMS.BL
             }
         }
 
-        public List<ColaboradorModel.ProjectManagerActivo> ListarProjectManagersActivos(){
+        public List<ColaboradorModel.DropDownList> ListarProjectManagersActivos(){
             try
             {
                 var colaboradores = colaboradorDA.ListarProjectManagersActivos();   

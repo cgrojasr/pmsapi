@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UPC.PMS.DA.Entities;
+using UPC.PMS.DA.Models;
 
 namespace UPC.PMS.DA
 {
@@ -16,7 +17,7 @@ namespace UPC.PMS.DA
         public ProyectoDA()
         {
             //conn = new SqlConnection("Server=localhost; Database=dbProjectEfficiency; User Id=sa; Password=password; TrustServerCertificate=true");
-            conn = new SqlConnection("Server=localhost; Database=dbProjectEfficiency; User Id=sa; Password=Password@123; TrustServerCertificate=true");
+            conn = new SqlConnection("Server=localhost; Database=dbProjectEfficiency; User Id=sa; Password=P@$$w0rD; TrustServerCertificate=true");
         }
 
         public List<ProyectoEntity> ListarTodo() {
@@ -24,6 +25,26 @@ namespace UPC.PMS.DA
             using (conn) { 
                 var proyectos = conn.Query<ProyectoEntity>(query).ToList();
                 return proyectos;
+            }
+        }
+
+        public List<ProyectoModel.ListarActivo> ListarActivo(){
+            try
+            {
+                var query = $"SELECT PRO.id_proyecto, PRO.codigo, PRO.nombre, (COL.nombre + ' ' + COL.apellidos) AS pm_asignado, CHP.nombre AS chapter_programa, ETP.nombre AS etapa"+
+                        "FROM proyecto PRO "+
+                        "INNER JOIN colaborador COL ON PRO.id_pm_asignado = COL.id_colaborador "+
+                        "INNER JOIN chapter_programa CHP ON PRO.id_chapter_programa = CHP.id_chapter_programa"+
+                        "INNER JOIN etapa_proyecto ETP ON PRO.id_etapa = ETP.id_etapa "+
+                        "WHERE id_estado = 6";
+            
+                using(conn){
+                    var result = conn.Query<ProyectoModel.ListarActivo>(query).ToList();
+                    return result;
+                }   
+            }
+            catch (SqlException){
+                throw new Exception("Error en el script de la base de datos o en la conexión a la misma");
             }
         }
 
@@ -52,8 +73,8 @@ namespace UPC.PMS.DA
             var query = $"UPDATE proyecto SET "+
                 $"nombre = '{proyecto.nombre}' "+
                 $"id_pm_asignado = {proyecto.id_pm_asignado} "+
-                $"id_po_asignado = {proyecto.id_po_asignado} "+
-                $"presupuesto = {proyecto.presupuesto} "+
+                //$"id_po_asignado = {proyecto.id_po_asignado} "+
+                $"presupuesto = {proyecto.presupuesto_inicial} "+
                 $"WHERE id_proyecto = {proyecto.id_proyecto}";
             
             using(conn){

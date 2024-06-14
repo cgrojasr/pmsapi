@@ -7,7 +7,6 @@ namespace UPC.PMS.DA.Models
 {
     public class ColaboradorModel
     {
-        public class ProjectManagerActivo : DropDownListModel{}
-        public class ProductOwnerActivo : DropDownListModel{}
+        public class DropDownList : GenericModel.DropDownList{}
     }
 }

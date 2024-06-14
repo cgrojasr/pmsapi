@@ -1,5 +1,6 @@
 ﻿using UPC.PMS.DA;
 using UPC.PMS.DA.Entities;
+using UPC.PMS.DA.Models;
 
 namespace UPC.PMS.BL
 {

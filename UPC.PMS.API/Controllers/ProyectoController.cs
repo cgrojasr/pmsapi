@@ -5,8 +5,8 @@ using UPC.PMS.DA.Entities;
 
 namespace UPC.PMS.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class ProyectoController : ControllerBase
     {
         private readonly ProyectoBL proyectoBL;

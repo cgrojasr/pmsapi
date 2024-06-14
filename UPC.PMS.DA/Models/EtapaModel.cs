@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace UPC.PMS.DA.Models
 {
-    public class DropDownListModel
+    public class EtapaModel
     {
-        public int value { get; set; }
-        public string text { get; set; } = string.Empty;
+        public class DropDownList : GenericModel.DropDownList {}
     }
 }

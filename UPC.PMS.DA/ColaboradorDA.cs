@@ -14,22 +14,22 @@ namespace UPC.PMS.DA
         private readonly SqlConnection conn;
         public ColaboradorDA()
         {
-            conn = new SqlConnection("Server=localhost; Database=dbProjectEfficiency; User Id=sa; Password=Password@123; TrustServerCertificate=true");
+            conn = new SqlConnection("Server=localhost; Database=dbProjectEfficiency; User Id=sa; Password=P@$$w0rD; TrustServerCertificate=true");
         }
 
-        public List<ColaboradorModel.ProjectManagerActivo> ListarProjectManagersActivos(){
+        public List<ColaboradorModel.DropDownList> ListarProjectManagersActivos(){
             var query = "SELECT id_colaborador AS value, (nombre + ' ' + apellidos) AS text FROM colaborador WHERE activo = 1 AND id_rol = 1";
             using(conn){
-                return conn.Query<ColaboradorModel.ProjectManagerActivo>(query).ToList();
+                return conn.Query<ColaboradorModel.DropDownList>(query).ToList();
             }
         }
 
-        public List<ColaboradorModel.ProductOwnerActivo> ListarProductOwnersActivos(){
+        public List<ColaboradorModel.DropDownList> ListarProductOwnersActivos(){
             try
             {
                 var query = "SELECT id_colaborador AS value, (nombre + ' ' + apellidos) AS text FROM colaborador WHERE activo = 1 AND id_rol = 2";
                 using(conn){
-                    return conn.Query<ColaboradorModel.ProductOwnerActivo>(query).ToList();
+                    return conn.Query<ColaboradorModel.DropDownList>(query).ToList();
                 }
             }
             catch (SqlException)
