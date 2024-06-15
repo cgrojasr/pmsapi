@@ -17,7 +17,9 @@ namespace UPC.PMS.DA.Tools
             builder.AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"));
 
             var _configurationBuilder = builder.Build();
+#pragma warning disable CS8601 // Possible null reference assignment.
             connectionString = _configurationBuilder.GetConnectionString("dbProjectEfficiency");
+#pragma warning restore CS8601 // Possible null reference assignment.
         }
 
         public string connectionString { get;}
