@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UPC.PMS.DA.Entities;
 using UPC.PMS.DA.Models;
+using UPC.PMS.DA.Tools;
 
 namespace UPC.PMS.DA
 {
@@ -19,6 +20,7 @@ namespace UPC.PMS.DA
         {
             //conn = new SqlConnection("Server=localhost; Database=dbProjectEfficiency; User Id=sa; Password=password; TrustServerCertificate=true");
             //conn = new SqlConnection("Server=localhost; Database=dbProjectEfficiency; User Id=sa; Password=P@$$w0rD; TrustServerCertificate=true");
+            conn = new SqlConnection(new HelperConnection().connectionString);
         }
 
         public List<ProyectoEntity> ListarTodo() {
@@ -75,7 +77,7 @@ namespace UPC.PMS.DA
                 $"nombre = '{proyecto.nombre}' "+
                 $"id_pm_asignado = {proyecto.id_pm_asignado} "+
                 //$"id_po_asignado = {proyecto.id_po_asignado} "+
-                $"presupuesto = {proyecto.presupuesto_inicial} "+
+                //$"presupuesto = {proyecto.presupuesto_inicial} "+
                 $"WHERE id_proyecto = {proyecto.id_proyecto}";
             
             using(conn){
