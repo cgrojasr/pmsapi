@@ -12,6 +12,21 @@ namespace UPC.PMS.BL
             proyectoDA = new ProyectoDA();
         }
 
+        public List<ProyectoModel.ListarActivo> ListarActivo() {
+            try
+            {
+                var proyectos = proyectoDA.ListarActivo();
+                if(proyectos.Count()==0)
+                    throw new Exception("No se encontraron proyectos activos");
+
+                return proyectos;
+            }
+            catch (System.Exception)
+            {   
+                throw;
+            }
+        }
+
         public List<ProyectoEntity> ListarTodo() {
             try
             {

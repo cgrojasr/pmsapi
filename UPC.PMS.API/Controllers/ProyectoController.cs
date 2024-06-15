@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using UPC.PMS.BL;
 using UPC.PMS.DA.Entities;
+using UPC.PMS.DA.Models;
 
 namespace UPC.PMS.API.Controllers
 {
@@ -16,6 +17,17 @@ namespace UPC.PMS.API.Controllers
             proyectoBL = new ProyectoBL();
         }
 
+        [HttpGet("ListaActivos")]
+        public ActionResult<List<ProyectoModel.ListarActivo>> ListarActivos(){
+            try
+            {
+                return Ok(proyectoBL.ListarActivo()); 
+            }
+            catch (System.Exception)
+            {
+                return BadRequest();
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
