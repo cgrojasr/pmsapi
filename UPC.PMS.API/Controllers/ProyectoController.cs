@@ -17,11 +17,12 @@ namespace UPC.PMS.API.Controllers
             proyectoBL = new ProyectoBL();
         }
 
-        [HttpGet("ListaActivos")]
-        public ActionResult<List<ProyectoModel.ListarActivo>> ListarActivos(){
+        
+        [HttpGet("ListarPorPMASignado/{id_pm_asignado}")]
+        public ActionResult<List<ProyectoModel.ListarPorPMASignado>> ListarPorPMASignado(int id_pm_asignado){
             try
             {
-                return Ok(proyectoBL.ListarActivo()); 
+                return Ok(proyectoBL.ListarPorPMASignado(id_pm_asignado)); 
             }
             catch (System.Exception)
             {
@@ -46,19 +47,6 @@ namespace UPC.PMS.API.Controllers
 
         [HttpGet("{id_proyecto}")]
         public ActionResult<ProyectoEntity> BuscarPorId(int id_proyecto)
-        {
-            try
-            {
-                return Ok(proyectoBL.BuscarPorId(id_proyecto));
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
-
-        [HttpGet("buscar2/{id_proyecto}")]
-        public ActionResult<ProyectoEntity> BuscarPorId2(int id_proyecto)
         {
             try
             {

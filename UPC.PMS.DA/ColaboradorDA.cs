@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dapper;
 using UPC.PMS.DA.Entities;
 using UPC.PMS.DA.Models;
+using UPC.PMS.DA.Tools;
 
 namespace UPC.PMS.DA
 {
@@ -14,7 +15,7 @@ namespace UPC.PMS.DA
         private readonly SqlConnection conn;
         public ColaboradorDA()
         {
-            conn = new SqlConnection("Server=localhost; Database=dbProjectEfficiency; User Id=sa; Password=P@$$w0rD; TrustServerCertificate=true");
+            conn = new SqlConnection(new HelperConnection().connectionString);
         }
 
         public List<ColaboradorModel.DropDownList> ListarProjectManagersActivos(){

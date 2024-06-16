@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using UPC.PMS.DA.Tools;
 
 namespace UPC.PMS.DA
 {
@@ -12,7 +13,7 @@ namespace UPC.PMS.DA
 
         public ReleaseDA()
         {
-            conn = new SqlConnection("Server=localhost; Database=dbProjectEfficiency; User Id=sa; Password=P@$$w0rD; TrustServerCertificate=true");
+            conn = new SqlConnection(new HelperConnection().connectionString);
         }
 
         

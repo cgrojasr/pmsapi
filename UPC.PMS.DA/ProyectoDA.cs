@@ -31,22 +31,21 @@ namespace UPC.PMS.DA
             }
         }
 
-        public List<ProyectoModel.ListarActivo> ListarActivo(){
+        public List<ProyectoModel.ListarPorPMASignado> ListarPorPMASignado(int id_pm_asignado){
             try
             {
-                var query = $"SELECT PRO.id_proyecto, PRO.codigo, PRO.nombre, (COL.nombre + ' ' + COL.apellidos) AS pm_asignado, CHP.nombre AS chapter_programa, ETP.nombre AS etapa"+
+                var query = $"SELECT PRO.id_proyecto, PRO.codigo, PRO.nombre, ETP.nombre AS etapa, EST.nombre AS estado "+
                         "FROM proyecto PRO "+
-                        "INNER JOIN colaborador COL ON PRO.id_pm_asignado = COL.id_colaborador "+
-                        "INNER JOIN chapter_programa CHP ON PRO.id_chapter_programa = CHP.id_chapter_programa"+
                         "INNER JOIN etapa_proyecto ETP ON PRO.id_etapa = ETP.id_etapa "+
-                        "WHERE id_estado = 6";
+                        "INNER JOIN estado_proyecto EST ON PRO.id_estado = EST.id_estado "+
+                        $"WHERE PRO.id_estado <> 6 AND PRO.id_pm_asignado = {id_pm_asignado}";
             
                 using(conn){
-                    var result = conn.Query<ProyectoModel.ListarActivo>(query).ToList();
+                    var result = conn.Query<ProyectoModel.ListarPorPMASignado>(query).ToList();
                     return result;
                 }   
             }
-            catch (SqlException){
+            catch (SqlException ex){
                 throw new Exception("Error en el script de la base de datos o en la conexión a la misma");
             }
         }
