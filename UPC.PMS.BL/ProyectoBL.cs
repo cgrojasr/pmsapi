@@ -12,10 +12,10 @@ namespace UPC.PMS.BL
             proyectoDA = new ProyectoDA();
         }
 
-        public List<ProyectoModel.ListarPorPMASignado> ListarPorPMASignado(int id_pm_asignado) {
+        public List<ProyectoModel.ListarPorPM> ListarPorPM(int id_pm_asignado) {
             try
             {
-                var proyectos = proyectoDA.ListarPorPMASignado(id_pm_asignado);
+                var proyectos = proyectoDA.ListarPorPM(id_pm_asignado);
                 if(proyectos.Count()==0)
                     throw new Exception("No se encontraron proyectos activos");
 

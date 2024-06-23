@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using UPC.PMS.BL;
+using UPC.PMS.DA.Models;
 
 namespace UPC.PMS.API.Controllers
 {
@@ -18,11 +19,24 @@ namespace UPC.PMS.API.Controllers
             colaboradorBL = new ColaboradorBL();
         }
 
-        [HttpGet("cbpoactivos")]
-        public IActionResult ListarProductOwnersActivos(){
+        [HttpGet("cbpmactivos")]
+        public IActionResult ListarProjectManagersActivos(){
             try
             {
-                return Ok(colaboradorBL.ListarProductOwnersActivos());   
+                return Ok(colaboradorBL.ListarProjectManagersActivos());   
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpPost("autenticar")]
+
+        public IActionResult Autenticar([FromBody] ColaboradorModel.Autenticar credenciales){
+            try
+            {
+                return Ok(colaboradorBL.Autenticar(credenciales)); 
             }
             catch (Exception ex)
             {
@@ -30,11 +44,11 @@ namespace UPC.PMS.API.Controllers
             }
         }
 
-        [HttpGet("cbpmactivos")]
-        public IActionResult ListarProjectManagersActivos(){
+        [HttpGet("token")]
+        public IActionResult Token(int id_colaborador){
             try
             {
-                return Ok(colaboradorBL.ListarProjectManagersActivos());   
+                return Ok(colaboradorBL.Token(id_colaborador));   
             }
             catch (Exception ex)
             {

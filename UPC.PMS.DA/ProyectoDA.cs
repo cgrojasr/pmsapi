@@ -20,7 +20,7 @@ namespace UPC.PMS.DA
         {
             //conn = new SqlConnection("Server=localhost; Database=dbProjectEfficiency; User Id=sa; Password=password; TrustServerCertificate=true");
             //conn = new SqlConnection("Server=localhost; Database=dbProjectEfficiency; User Id=sa; Password=P@$$w0rD; TrustServerCertificate=true");
-            conn = new SqlConnection(new HelperConnection().connectionString);
+            conn = new SqlConnection(ConnectionHelper.GetConnectionString());
         }
 
         public List<ProyectoEntity> ListarTodo() {
@@ -31,31 +31,50 @@ namespace UPC.PMS.DA
             }
         }
 
-        public List<ProyectoModel.ListarPorPMASignado> ListarPorPMASignado(int id_pm_asignado){
+        public List<ProyectoModel.ListarPorPM> ListarPorPM(int id_pm){
             try
             {
-                var query = $"SELECT PRO.id_proyecto, PRO.codigo, PRO.nombre, ETP.nombre AS etapa, EST.nombre AS estado "+
-                        "FROM proyecto PRO "+
-                        "INNER JOIN etapa_proyecto ETP ON PRO.id_etapa = ETP.id_etapa "+
-                        "INNER JOIN estado_proyecto EST ON PRO.id_estado = EST.id_estado "+
-                        $"WHERE PRO.id_estado <> 6 AND PRO.id_pm_asignado = {id_pm_asignado}";
+                var query = "SELECT PRO.id_proyecto, PRO.codigo, PRO.nombre, ETP.nombre AS etapa, EST.nombre AS estado, CHP.nombre AS chapter_programa "+
+                            "FROM proyecto PRO "+
+                            "INNER JOIN etapa_proyecto ETP ON PRO.id_etapa = ETP.id_etapa "+
+                            "INNER JOIN estado_proyecto EST ON PRO.id_estado = EST.id_estado "+
+                            "INNER JOIN chapter_programa CHP ON PRO.id_chapter_programa = CHP.id_chapter_programa "+
+                            $"WHERE PRO.id_estado <> 6 AND PRO.id_pm_responsable = {id_pm} "+
+                            "UNION "+
+                            "SELECT PRO.id_proyecto, PRO.codigo, PRO.nombre, ETP.nombre AS etapa, EST.nombre AS estado, CHP.nombre AS chapter_programa "+
+                            "FROM proyecto_pm_equipo TEM "+
+                            "INNER JOIN proyecto PRO ON TEM.id_proyecto = PRO.id_proyecto "+
+                            "INNER JOIN etapa_proyecto ETP ON PRO.id_etapa = ETP.id_etapa "+
+                            "INNER JOIN estado_proyecto EST ON PRO.id_estado = EST.id_estado "+
+                            "INNER JOIN chapter_programa CHP ON PRO.id_chapter_programa = CHP.id_chapter_programa "+
+                            $"WHERE PRO.id_estado <> 6 AND TEM.id_pm_colaborador =  {id_pm} "+
+                            "ORDER BY 1 DESC";
             
                 using(conn){
-                    var result = conn.Query<ProyectoModel.ListarPorPMASignado>(query).ToList();
+                    var result = conn.Query<ProyectoModel.ListarPorPM>(query).ToList();
                     return result;
                 }   
             }
-            catch (SqlException ex){
-                throw new Exception("Error en el script de la base de datos o en la conexión a la misma");
+            catch (SqlException){
+                throw new Exception(MessageHelper.mensajeErrorSQL);
             }
         }
 
         public ProyectoEntity BuscarPorId(int id_proyecto) {
-            var query = $"SELECT * FROM proyecto WHERE id_proyecto = {id_proyecto}";
-            using (conn)
+            try
             {
-                var proyecto = conn.Query<ProyectoEntity>(query).Single();
-                return proyecto;
+                var query = "SELECT PRO.codigo, PRO.nombre, PRO.id_chapter_programa, PRO.id_naturaleza, PRO.id_pm_responsable, "+
+                        "PRO.presupuesto_inicial, PRO.id_etapa, PRO.id_estado "+
+                        $"FROM proyecto PRO WHERE PRO.id_proyecto = {id_proyecto}";
+                using (conn)
+                {
+                    var proyecto = conn.QuerySingle<ProyectoEntity>(query);
+                    return proyecto;
+                }   
+            }
+            catch (SqlException)
+            {
+                throw new Exception(MessageHelper.mensajeErrorSQL);
             }
         }
 
@@ -74,7 +93,7 @@ namespace UPC.PMS.DA
         public ProyectoEntity Modificar(ProyectoEntity proyecto){
             var query = $"UPDATE proyecto SET "+
                 $"nombre = '{proyecto.nombre}' "+
-                $"id_pm_asignado = {proyecto.id_pm_asignado} "+
+                $"id_pm_asignado = {proyecto.id_pm_responsable} "+
                 //$"id_po_asignado = {proyecto.id_po_asignado} "+
                 //$"presupuesto = {proyecto.presupuesto_inicial} "+
                 $"WHERE id_proyecto = {proyecto.id_proyecto}";

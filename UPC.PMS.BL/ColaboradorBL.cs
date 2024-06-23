@@ -16,22 +16,7 @@ namespace UPC.PMS.BL
             colaboradorDA = new ColaboradorDA();
         }
 
-        public List<ColaboradorModel.DropDownList> ListarProductOwnersActivos(){
-            try
-            {
-                var colaboradores = colaboradorDA.ListarProductOwnersActivos();   
-                if(colaboradores.Count() == 0)
-                    throw new Exception("No se encontraron product owners");
-                else
-                    return colaboradores;
-            }
-            catch (Exception)
-            {   
-                throw;
-            }
-        }
-
-        public List<ColaboradorModel.DropDownList> ListarProjectManagersActivos(){
+        public IEnumerable<ColaboradorModel.DropDownList> ListarProjectManagersActivos(){
             try
             {
                 var colaboradores = colaboradorDA.ListarProjectManagersActivos();   
@@ -42,6 +27,31 @@ namespace UPC.PMS.BL
             }
             catch (Exception)
             {   
+                throw;
+            }
+        }
+
+        public int Autenticar(ColaboradorModel.Autenticar credenciales){
+            try
+            {
+                var id_colaborador = colaboradorDA.Autenticar(credenciales);
+                if(id_colaborador == 0)
+                    throw new Exception("Correo o contraseña incorrectas");
+                return id_colaborador;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ColaboradorModel.Token Token(int id_colaborador){
+            try
+            {
+                return colaboradorDA.Token(id_colaborador);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

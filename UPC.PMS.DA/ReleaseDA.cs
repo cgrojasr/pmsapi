@@ -13,7 +13,7 @@ namespace UPC.PMS.DA
 
         public ReleaseDA()
         {
-            conn = new SqlConnection(new HelperConnection().connectionString);
+            conn = new SqlConnection(ConnectionHelper.GetConnectionString());
         }
 
         

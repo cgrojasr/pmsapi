@@ -18,11 +18,11 @@ namespace UPC.PMS.API.Controllers
         }
 
         
-        [HttpGet("ListarPorPMASignado/{id_pm_asignado}")]
-        public ActionResult<List<ProyectoModel.ListarPorPMASignado>> ListarPorPMASignado(int id_pm_asignado){
+        [HttpGet("ListarPorPM/{id_pm}")]
+        public ActionResult<List<ProyectoModel.ListarPorPM>> ListarPorPM(int id_pm){
             try
             {
-                return Ok(proyectoBL.ListarPorPMASignado(id_pm_asignado)); 
+                return Ok(proyectoBL.ListarPorPM(id_pm)); 
             }
             catch (System.Exception)
             {
