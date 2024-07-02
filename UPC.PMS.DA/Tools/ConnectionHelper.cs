@@ -13,8 +13,10 @@ namespace UPC.PMS.DA.Tools
             builder.AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"));
 
             var _configurationBuilder = builder.Build();
+            var section = _configurationBuilder.GetSection("Enviroment");
+            var enviroment = section.Value;
 #pragma warning disable CS8603 // Possible null reference return.
-            return _configurationBuilder.GetConnectionString("dbProjectEfficiency");
+            return _configurationBuilder.GetConnectionString($"dbProjectEfficiency{enviroment}");
 #pragma warning restore CS8603 // Possible null reference return.
         }
     }

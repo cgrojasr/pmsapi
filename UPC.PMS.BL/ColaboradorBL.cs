@@ -9,7 +9,7 @@ namespace UPC.PMS.BL
 {
     public class ColaboradorBL
     {
-        private readonly ColaboradorDA colaboradorDA;
+        private ColaboradorDA colaboradorDA;
 
         public ColaboradorBL()
         {
@@ -31,23 +31,14 @@ namespace UPC.PMS.BL
             }
         }
 
-        public int Autenticar(ColaboradorModel.Autenticar credenciales){
+        public ColaboradorModel.Token Autenticar(ColaboradorModel.Autenticar credenciales){
             try
             {
                 var id_colaborador = colaboradorDA.Autenticar(credenciales);
-                if(id_colaborador == 0)
+                if(id_colaborador <= 0)
                     throw new Exception("Correo o contraseña incorrectas");
-                return id_colaborador;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public ColaboradorModel.Token Token(int id_colaborador){
-            try
-            {
+                
+                colaboradorDA = new ColaboradorDA();
                 return colaboradorDA.Token(id_colaborador);
             }
             catch (Exception)

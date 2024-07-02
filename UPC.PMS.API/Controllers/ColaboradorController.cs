@@ -43,17 +43,5 @@ namespace UPC.PMS.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("token")]
-        public IActionResult Token(int id_colaborador){
-            try
-            {
-                return Ok(colaboradorBL.Token(id_colaborador));   
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
     }
 }
